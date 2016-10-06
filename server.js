@@ -34,6 +34,24 @@ app.use(function(req, res) {
   });
 });
 
-app.listen(app.get('port'), function() {
-    console.log('Express is running on port ' + app.get('port'));
+/*
+ * Socket.io
+ */
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var onlineUsers = 0;
+
+io.sockets.on('connection', function(socket) {
+  onlineUsers++;
+
+  io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
+
+  socket.on('disconnect', function() {
+      onlineUsers--;
+      io.sockets.emit('onlineUsers', { onlineUser: onlineUsers });
+  });
+});
+
+server.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
 });

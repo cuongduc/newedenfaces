@@ -24,19 +24,21 @@ var dependencies = [
   'underscore'
 ];
 
-/**
- | Compile all JS libraries to a single file
- **/
-gulp.task('vendor', function() {
-    return gulp.src([
-      'bower_components/jquery/dist/jquery.js',
-      'bower_components/bootstrap/dist/js/bootstrap.js',
-      'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-      'bower_components/toastr/toastr.js'
-    ]).pipe(concat('vendor.js')
-      .pipe(gulpif(production, uglify({ mangle: false})))
-      .pipe(gulp.dest('public/js')));
-});
+ /*
+  |--------------------------------------------------------------------------
+  | Combine all JS libraries into a single file for fewer HTTP requests.
+  |--------------------------------------------------------------------------
+  */
+ gulp.task('vendor', function() {
+   return gulp.src([
+     'bower_components/jquery/dist/jquery.js',
+     'bower_components/bootstrap/dist/js/bootstrap.js',
+     'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
+     'bower_components/toastr/toastr.js'
+   ]).pipe(concat('vendor.js'))
+     .pipe(gulpif(production, uglify({ mangle: false })))
+     .pipe(gulp.dest('public/js'));
+ });
 
 /*
  |--------------------------------------------------------------------------
